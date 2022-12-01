@@ -96,3 +96,17 @@ router.put('/:dogId', validateDogInfo, validateDogId, updateDog);
 router.delete('/:dogId', validateDogInfo, validateDogId, deleteDog);
 
 module.exports = router
+
+
+//alt code
+// const express = require('express')
+// const router = express.Router()
+// router.use(express.json())
+// router.use('/:dogId', validateDogId)
+
+// router.get('/', getAllDogs)
+// router.get('/:dogId', getDogById)
+// router.post('/', validateDogInfo, createDog)
+// router.put('/:dogId', validateDogInfo, updateDog)
+// router.delete('/:dogId', deleteDog)
+// module.exports = router

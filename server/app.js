@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
-const async = require('express-async-errors');
+require('express-async-errors');
 const dogsRouter = require('./routes/dogs.js')
+const foodRouter = require('./routes/dog-foods.js')
 
 app.use('/dogs', dogsRouter);
+app.use('/dogs', foodRouter)
+require('dotenv').config()
 
 app.use('/static', express.static('assets'));
 
@@ -41,5 +44,17 @@ app.use((req, res) => {
   throw new Error("The requested resource couldn't be found.")
 })
 
-const port = 5000;
+app.use((err, req, res, next) => {
+  console.error(err)
+  if(!err.statusCode) res.statusCode = 500
+  else res.statusCode = err.statusCode
+  const obj = {
+    message: err.message,
+    statusCode: res.statusCode,
+  }
+  if(process.env.NODE_ENV === "development") obj.stack = err.stack
+  res.json(obj)
+})
+
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('Server is listening on port', port));
